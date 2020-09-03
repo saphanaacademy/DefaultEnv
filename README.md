@@ -28,11 +28,11 @@ If you do not have the community repository in your CF CLI you can add it first 
 Alternatively you can install any version of the plugin by manually downloading it from the releases page and installing the binaries for your specific operating system.
 
 ### Download
-The latest version of the plugin can also be downloaded from the project's [releases](https://github.com/saphanaacademy/DefaultEnv/releases/). Download the plugin for your platform (Darwin, Linux, Windows). The name for the correct plugin for each platform can be found in the table below.
+The latest version of the plugin can also be downloaded from the project's [releases](https://github.com/saphanaacademy/DefaultEnv/tree/master/releases/). Download the plugin for your platform (Darwin, Linux, Windows). The name for the correct plugin for each platform can be found in the table below.
 
 Mac OS X 64 bit | Windows 32 bit | Windows 64 bit | Linux 32 bit | Linux 64 bit
 --- | --- | --- | --- | ---
-[DefaultEnv.osx](https://github.com/saphanaacademy/DefaultEnv/releases/v1.0.0/DefaultEnv.osx) | [DefaultEnv.win32](https://github.com/saphanaacademy/DefaultEnv/releases/v1.0.0/DefaultEnv.win32) | [DefaultEnv.win64](https://github.com/saphanaacademy/DefaultEnv/releases/v1.0.0/DefaultEnv.win64) | [DefaultEnv.linux32](https://github.com/saphanaacademy/DefaultEnv/releases/v1.0.0/DefaultEnv.linux32) | [DefaultEnv.linux64](https://github.com/saphanaacademy/DefaultEnv/releases/v1.0.0/DefaultEnv.linux64)
+[DefaultEnv.osx](https://github.com/saphanaacademy/DefaultEnv/blob/master/releases/v1.0.0/DefaultEnv.osx) | [DefaultEnv.win32](https://github.com/saphanaacademy/DefaultEnv/blob/master/releases/v1.0.0/DefaultEnv.win32) | [DefaultEnv.win64](https://github.com/saphanaacademy/DefaultEnv/blob/master/releases/v1.0.0/DefaultEnv.win64) | [DefaultEnv.linux32](https://github.com/saphanaacademy/DefaultEnv/blob/master/releases/v1.0.0/DefaultEnv.linux32) | [DefaultEnv.linux64](https://github.com/saphanaacademy/DefaultEnv/blob/master/releases/v1.0.0/DefaultEnv.linux64)
 
 ### Installation
 Install the plugin, using the following command:
@@ -50,7 +50,7 @@ Command Name | Command Description
 
 For more information, see the command help output available via `cf [command] --help` or `cf help [command]`.
 
-# Further reading
+# Further Information
 Tutorials:
 - [SAP Cloud Platform Developer Onboarding](https://www.youtube.com/playlist?list=PLkzo92owKnVw3l4fqcLoQalyFi9K4-UdY)
 - [SAP HANA Academy](https://www.youtube.com/saphanaacademy)

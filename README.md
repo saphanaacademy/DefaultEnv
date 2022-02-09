@@ -46,7 +46,7 @@ The DefaultEnv CF plugin supports the following commands:
 
 Command Name | Command Description
 --- | ---
-`default-env` | Create default-env.json file with environment variables of an app. Usage ```cf default-env myapphana```
+`default-env` | Create default-env.json file with environment variables of an app. Usage ```cf default-env myapp-srv```
 
 For more information, see the command help output available via `cf [command] --help` or `cf help [command]`.
 

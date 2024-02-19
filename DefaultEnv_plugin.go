@@ -13,53 +13,61 @@ type DefaultEnvPlugin struct{}
 
 func handleError(err error) {
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Error:", err)
+		_, _ = fmt.Fprintln(os.Stderr, "Error:", err)
 		os.Exit(1)
 	}
 }
 
+// EnvResponse from /v3/apps/:guid/env
+type EnvResponse struct {
+	SystemEnvJson        map[string]interface{} `json:"system_env_json"`
+	ApplicationEnvJson   map[string]interface{} `json:"application_env_json"`
+	EnvironmentVariables map[string]interface{} `json:"environment_variables"`
+}
+
 func (c *DefaultEnvPlugin) Run(cliConnection plugin.CliConnection, args []string) {
-	if args[0] == "default-env" {
-		if len(args) != 2 {
-			fmt.Println("Please specify an app")
-			return
-		}
-		app, err := cliConnection.GetApp(args[1])
-		handleError(err)
-		url := fmt.Sprintf("/v3/apps/%s/env", app.Guid)
-		env, err := cliConnection.CliCommandWithoutTerminalOutput("curl", url)
-		handleError(err)
-		var envJSON map[string]interface{}
-		json.Unmarshal([]byte(strings.Join(env, "")), &envJSON)
-		f, err := os.Create("default-env.json")
-		handleError(err)
-		_, err = f.Write([]byte("{"))
-		handleError(err)
-		env1, err := json.Marshal(envJSON["system_env_json"])
-		handleError(err)
-		str1 := strings.Trim(string(env1), "{}")
-		_, err = f.Write([]byte(str1))
-		handleError(err)
-		_, err = f.Write([]byte("},"))
-		handleError(err)
-		env2, err := json.Marshal(envJSON["application_env_json"])
-		handleError(err)
-		str2 := strings.Trim(string(env2), "{}")
-		_, err = f.Write([]byte(str2))
-		handleError(err)
-		_, err = f.Write([]byte("},"))
-		handleError(err)
-		env3, err := json.Marshal(envJSON["environment_variables"])
-		handleError(err)
-		str3 := strings.Trim(string(env3), "{}")
-		_, err = f.Write([]byte(str3))
-		handleError(err)
-		_, err = f.Write([]byte("}"))
-		handleError(err)
-		err = f.Close()
-		handleError(err)
-		fmt.Println("Environment variables for " + args[1] + " written to default-env.json")
+	if args[0] != "default-env" {
+		return
 	}
+	if len(args) != 2 {
+		fmt.Println("Please specify an app")
+		return
+	}
+	app, err := cliConnection.GetApp(args[1])
+	handleError(err)
+
+	url := fmt.Sprintf("/v3/apps/%s/env", app.Guid)
+	env, err := cliConnection.CliCommandWithoutTerminalOutput("curl", url)
+	handleError(err)
+
+	var data EnvResponse
+	err = json.Unmarshal([]byte(strings.Join(env, "")), &data)
+	handleError(err)
+
+	f, err := os.Create("default-env.json")
+	handleError(err)
+
+	// Merge all environment variables into one map
+	content := make(map[string]interface{})
+	for k, v := range data.SystemEnvJson {
+		content[k] = v
+	}
+	for k, v := range data.ApplicationEnvJson {
+		content[k] = v
+	}
+	for k, v := range data.EnvironmentVariables {
+		content[k] = v
+	}
+
+	write, err := json.Marshal(content)
+	handleError(err)
+
+	_, err = f.Write(write)
+	handleError(err)
+
+	err = f.Close()
+	handleError(err)
+	fmt.Println("Environment variables for " + args[1] + " written to default-env.json")
 }
 
 func (c *DefaultEnvPlugin) GetMetadata() plugin.PluginMetadata {

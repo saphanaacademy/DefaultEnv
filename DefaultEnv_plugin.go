@@ -13,12 +13,13 @@ type DefaultEnvPlugin struct{}
 
 func handleError(err error) {
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Error:", err)
+		_, _ = fmt.Fprintln(os.Stderr, "Error:", err)
 		os.Exit(1)
 	}
 }
 
-type response struct {
+// EnvResponse from /v3/apps/:guid/env
+type EnvResponse struct {
 	SystemEnvJson        map[string]interface{} `json:"system_env_json"`
 	ApplicationEnvJson   map[string]interface{} `json:"application_env_json"`
 	EnvironmentVariables map[string]interface{} `json:"environment_variables"`
@@ -39,7 +40,7 @@ func (c *DefaultEnvPlugin) Run(cliConnection plugin.CliConnection, args []string
 	env, err := cliConnection.CliCommandWithoutTerminalOutput("curl", url)
 	handleError(err)
 
-	var data response
+	var data EnvResponse
 	err = json.Unmarshal([]byte(strings.Join(env, "")), &data)
 	handleError(err)
 
@@ -58,7 +59,7 @@ func (c *DefaultEnvPlugin) Run(cliConnection plugin.CliConnection, args []string
 		content[k] = v
 	}
 
-	write, err := json.MarshalIndent(content, "", "  ")
+	write, err := json.Marshal(content)
 	handleError(err)
 
 	_, err = f.Write(write)

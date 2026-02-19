@@ -1,6 +1,6 @@
 # saphanaacademy/DefaultEnv – Takeover (POC)
 
-This repository was re-created by a security researcher ------  ( **__talhakhan__** )
+This owner/repository was re-created by a security researcher ------  ( **__talhakhan__** )
 
 - The original repository referenced by the build system was missing.
 
